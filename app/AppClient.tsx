@@ -188,7 +188,7 @@ const content = {
         { title: "GoogieChatbot", type: "Chatbot", icon: <Globe />, color: "#EE2A35", url: "https://googiechatbot.netlify.app/", image: "https://plus.unsplash.com/premium_photo-1726550550053-6e5f7190f1bf?q=80&w=800", story: "Platform percakapan berbasis AI yang intuitif dengan kapabilitas obrolan waktu nyata dan respons yang dapat disesuaikan." },
         { title: "Pocket Qur'an (ID)", type: "Al-Quran", icon: <Shield />, color: "#1A1A1A", url: "https://pocketquran.netlify.app/", image: "https://images.unsplash.com/photo-1576764402988-7143f9cca90a?q=80&w=800", story: "Al-Qur'an digital dengan teks resolusi tinggi, terjemahan multibahasa, dan audio."},
         { title: "TenderCrawler", type: "Research", icon: <BarChart3 />, color: "#009736", url: "https://n8n.data-collect.id/workflow/KWMiZDFTqG-Q2D4n7IekK", image: "https://plus.unsplash.com/premium_photo-1681010317789-68f31df3b9b0?q=80&w=800", story: "Mesin otomatisasi berperforma tinggi untuk memantau portal pengadaan sektor pemerintah dan swasta."},
-        { title: "NeuralScribe", type: "Deep Learning", icon: <Cpu />, color: "#EE2A35", url: "#", image: "https://images.unsplash.com/photo-1666214280557-f1b5022eb634?q=80&w=870", story: "Natural language processing model summarizing complex medical records into reports easily understood by patients." }
+        { title: "NeuralScribe", type: "Deep Learning", icon: <Cpu />, color: "#EE2A35", url: "https://neural-scribe.netlify.app/", image: "https://images.unsplash.com/photo-1666214280557-f1b5022eb634?q=80&w=870", story: "Natural language processing model summarizing complex medical records into reports easily understood by patients." }
       ]
     },
     journal: {
@@ -312,7 +312,7 @@ const content = {
         { title: "GoogieChatbot", type: "Chatbot", icon: <Globe />, color: "#EE2A35", url: "https://googiechatbot.netlify.app/", image: "https://plus.unsplash.com/premium_photo-1726550550053-6e5f7190f1bf?q=80&w=800", story: "Intuitive AI-powered conversational platform featuring real-time chat capabilities and custom responses." },
         { title: "Pocket Qur'an (ID)", type: "Al-Quran", icon: <Shield />, color: "#1A1A1A", url: "https://pocketquran.netlify.app/", image: "https://images.unsplash.com/photo-1576764402988-7143f9cca90a?q=80&w=800", story: "Digital Al-Qur'an with high-resolution text, multilingual translations, and audio." },
         { title: "TenderCrawler", type: "Research", icon: <BarChart3 />, color: "#009736", url: "https://n8n.data-collect.id/workflow/KWMiZDFTqG-Q2D4n7IekK", image: "https://plus.unsplash.com/premium_photo-1681010317789-68f31df3b9b0?q=80&w=800", story: "High-performance automation engine to monitor government and private sector procurement portals." },
-        { title: "NeuralScribe", type: "Deep Learning", icon: <Cpu />, color: "#EE2A35", url: "#", image: "https://images.unsplash.com/photo-1666214280557-f1b5022eb634?q=80&w=870", story: "Natural language processing model summarizing complex medical records into reports easily understood by patients." }
+        { title: "NeuralScribe", type: "Deep Learning", icon: <Cpu />, color: "#EE2A35", url: "https://neural-scribe.netlify.app/", image: "https://images.unsplash.com/photo-1666214280557-f1b5022eb634?q=80&w=870", story: "Natural language processing model summarizing complex medical records into reports easily understood by patients." }
       ]
     },
     journal: {
@@ -733,7 +733,7 @@ const App = () => {
                 <div className="card-farm border-dashed border-gray-300 p-8 md:p-10 flex flex-col items-center justify-center text-center space-y-4 md:space-y-6 bg-sky-100/30">
                   <ThreeAnimal type="duck" size={120} />
                   <p className="text-[10px] md:text-[12px] font-black tracking-[0.2em] md:tracking-[0.3em] text-sky-400 uppercase leading-relaxed px-2">
-                    {lang === 'id' ? 'Ide besar berikutnya...' : 'Next big idea...'}
+                    {lang === 'id' ? 'Nantikan ide besar berikutnya...' : 'Stay tuned for the next big idea...'}
                   </p>
                 </div>
               </div>
