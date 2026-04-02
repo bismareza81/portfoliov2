@@ -137,7 +137,7 @@ const ThreeAnimal = ({ type = 'chicken', size = 150 }) => {
 // --- DATA CONTENT ---
 const content = {
   id: {
-    nav: { home: 'Beranda', skills: 'Keahlian', works: 'Karya', exp: 'Jurnal', contact: 'Kontak' },
+    nav: { home: 'Beranda', skills: 'Keahlian', works: 'Karya', journal: 'Jurnal', contact: 'Kontak' },
     hero: {
       tag: "Business Analyst// Active",
       title: "Mengubah Kompleksitas, ",
@@ -261,7 +261,7 @@ const content = {
     }
   },
   en: {
-    nav: { home: 'Home', skills: 'Skills', works: 'Works', exp: 'Journal', contact: 'Contact' },
+    nav: { home: 'Home', skills: 'Skills', works: 'Works', journal: 'Journal', contact: 'Contact' },
     hero: {
       tag: "Business Analyst// Active",
       title: "Turning Raw Complexity, ",
@@ -426,7 +426,8 @@ const App = () => {
       skills: '/skills',
       works: '/works',
       journal: '/journal',
-      contact: '/contact'
+      contact: '/contact',
+      exp: '/journal' // Legacy support for exp key
     };
     
     router.push(routeMap[tab] || '/');
@@ -740,7 +741,7 @@ const App = () => {
           )}
 
           {/* --- JURNAL (EXPERIENCE) --- */}
-          {activeTab === 'exp' && (
+          {activeTab === 'journal' && (
             <motion.section key="exp" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} className="max-w-4xl mx-auto space-y-12 md:space-y-20 px-4">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b-4 border-black pb-6 md:pb-10">
                 <div className="space-y-3 md:space-y-4 text-center md:text-left">
