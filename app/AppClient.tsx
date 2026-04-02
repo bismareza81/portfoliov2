@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 import { 
@@ -7,7 +8,7 @@ import {
   PenTool, Leaf, MousePointer2, Sparkles,
   Cloud, Star, Coffee, Globe, Shield, BarChart3, Cpu,
   Mail, Linkedin, Github, Instagram, MapPin, 
-  Briefcase, GraduationCap, Heart, Anchor, Wind, Sun
+  Briefcase, GraduationCap, Heart, Anchor, Wind, Sun, Menu, X
 } from 'lucide-react';
 
 // --- 3D ANIMAL COMPONENT (Enhanced Details) ---
@@ -136,7 +137,7 @@ const ThreeAnimal = ({ type = 'chicken', size = 150 }) => {
 // --- DATA CONTENT ---
 const content = {
   id: {
-    nav: { home: 'Beranda', skills: 'Keahlian', projects: 'Karya', exp: 'Jurnal', contact: 'Kontak' },
+    nav: { home: 'Beranda', skills: 'Keahlian', works: 'Karya', exp: 'Jurnal', contact: 'Kontak' },
     hero: {
       tag: "Business Analyst// Active",
       title: "Mengubah Kompleksitas, ",
@@ -184,10 +185,10 @@ const content = {
       desc: "Setiap proyek adalah sketsa solusi untuk tantangan nyata di lapangan.",
       items: [
         { title: "Forest Weather Monicon", type: "Data Science", icon: <Leaf />, color: "#009736", url: "https://forestweathermonicon.streamlit.app/", image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80", story: "Aplikasi web interaktif yang menyediakan pemantauan cuaca secara real-time." },
-        { title: "GoogieChatbot", type: "Chatbot", icon: <Globe />, color: "#EE2A35", url: "https://googiechatbot.netlify.app/", image: "https://images.unsplash.com/photo-1551288049-bbbda536339a?w=800&q=80", story: "Platform percakapan berbasis AI yang intuitif dengan kapabilitas obrolan waktu nyata dan respons yang dapat disesuaikan." },
-        { title: "Pocket Qur'an (ID)", type: "Al-Quran", icon: <Shield />, color: "#1A1A1A", url: "https://pocketquran.netlify.app/", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80", story: "Al-Qur'an digital dengan teks resolusi tinggi, terjemahan multibahasa, dan audio."},
-        { title: "TenderCrawler", type: "Research", icon: <BarChart3 />, color: "#009736", url: "https://n8n.data-collect.id/workflow/KWMiZDFTqG-Q2D4n7IekK", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80", story: "Mesin otomatisasi berperforma tinggi untuk memantau portal pengadaan sektor pemerintah dan swasta."},
-        { title: "NeuralScribe", type: "Deep Learning", icon: <Cpu />, color: "#EE2A35", url: "#", image: "https://images.unsplash.com/photo-1576091160550-2173dad99901?w=800&q=80", story: "Natural language processing model summarizing complex medical records into reports easily understood by patients." }
+        { title: "GoogieChatbot", type: "Chatbot", icon: <Globe />, color: "#EE2A35", url: "https://googiechatbot.netlify.app/", image: "https://plus.unsplash.com/premium_photo-1726550550053-6e5f7190f1bf?q=80&w=800", story: "Platform percakapan berbasis AI yang intuitif dengan kapabilitas obrolan waktu nyata dan respons yang dapat disesuaikan." },
+        { title: "Pocket Qur'an (ID)", type: "Al-Quran", icon: <Shield />, color: "#1A1A1A", url: "https://pocketquran.netlify.app/", image: "https://images.unsplash.com/photo-1576764402988-7143f9cca90a?q=80&w=800", story: "Al-Qur'an digital dengan teks resolusi tinggi, terjemahan multibahasa, dan audio."},
+        { title: "TenderCrawler", type: "Research", icon: <BarChart3 />, color: "#009736", url: "https://n8n.data-collect.id/workflow/KWMiZDFTqG-Q2D4n7IekK", image: "https://plus.unsplash.com/premium_photo-1681010317789-68f31df3b9b0?q=80&w=800", story: "Mesin otomatisasi berperforma tinggi untuk memantau portal pengadaan sektor pemerintah dan swasta."},
+        { title: "NeuralScribe", type: "Deep Learning", icon: <Cpu />, color: "#EE2A35", url: "#", image: "https://images.unsplash.com/photo-1666214280557-f1b5022eb634?q=80&w=870", story: "Natural language processing model summarizing complex medical records into reports easily understood by patients." }
       ]
     },
     journal: {
@@ -260,7 +261,7 @@ const content = {
     }
   },
   en: {
-    nav: { home: 'Home', skills: 'Skills', projects: 'Works', exp: 'Journal', contact: 'Contact' },
+    nav: { home: 'Home', skills: 'Skills', works: 'Works', exp: 'Journal', contact: 'Contact' },
     hero: {
       tag: "Business Analyst// Active",
       title: "Turning Raw Complexity, ",
@@ -386,23 +387,50 @@ const content = {
 };
 
 const App = () => {
+  const router = useRouter();
+  const pathname = usePathname();
   const [lang, setLang] = useState('id');
-  const [activeTab, setActiveTab] = useState('home');
   const [profileIdx, setProfileIdx] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // Determine active tab from pathname
+  const getActiveTabFromPath = () => {
+    if (pathname === '/' || pathname === '/home') return 'home';
+    if (pathname === '/skills') return 'skills';
+    if (pathname === '/works') return 'works';
+    if (pathname === '/journal') return 'journal';
+    if (pathname === '/contact') return 'contact';
+    return 'home';
+  };
+
+  const [activeTab, setActiveTab] = useState('home');
+
+  useEffect(() => {
+    setActiveTab(getActiveTabFromPath());
+  }, [pathname]);
   
   // Memoized translation
   const t = useMemo(() => content[lang as keyof typeof content], [lang]);
 
   const profileOptions = [
     { type: 'image', value: 'https://lh3.googleusercontent.com/pw/AP1GczORxNQG_VFbRW6mUg2DlkMEtMO80cTL3c5uuO1EVVNUPgldlKGZrr2CbasMyrVM7KzPryIHtW1ssTEeGUSVj_gdkdfuaUj_VobxSGXJ9_BVrfpxCmwROICdJyfS6qqfxd8B4w9Lofjk5EOWUE2eN3SY', label: lang === 'id' ? 'Profile Picture' : 'Gambar Profil' },
-    { type: 'animal', value: 'duck', label: lang === 'id' ? 'Bebek' : 'Duck' },
-    { type: 'animal', value: 'sheep', label: lang === 'id' ? 'Domba' : 'Sheep' },
-    { type: 'animal', value: 'cow', label: lang === 'id' ? 'Sapi' : 'Cow' },
-    { type: 'animal', value: 'goat', label: lang === 'id' ? 'Kambing' : 'Goat' },
-  ];
-
-  const nextProfile = () => setProfileIdx((prev) => (prev + 1) % profileOptions.length);
-  const prevProfile = () => setProfileIdx((prev) => (prev - 1 + profileOptions.length) % profileOptions.length);
+    ];
+    
+  const handleNavClick = (tab: string) => {
+    setActiveTab(tab);
+    setMobileMenuOpen(false);
+    
+    // Map tab names to routes
+    const routeMap: { [key: string]: string } = {
+      home: '/',
+      skills: '/skills',
+      works: '/works',
+      journal: '/journal',
+      contact: '/contact'
+    };
+    
+    router.push(routeMap[tab] || '/');
+  };
 
   return (
     <div className="min-h-screen bg-sky-50 text-[#1A1A1A] font-light selection:bg-yellow-400/30 overflow-x-hidden relative">
@@ -419,6 +447,59 @@ const App = () => {
         {/* Clouds */}
         <motion.div animate={{ x: [-20, 20, -20] }} transition={{ duration: 12, repeat: Infinity }} className="absolute top-40 left-[10%] text-white/80 drop-shadow-sm"><Cloud size={80} /></motion.div>
         <motion.div animate={{ x: [20, -20, 20] }} transition={{ duration: 15, repeat: Infinity }} className="absolute top-80 right-[15%] text-white/60 drop-shadow-sm"><Cloud size={100} /></motion.div>
+        
+        {/* Farm Animals Background - Desktop Only */}
+        <div className="hidden md:block">
+          {/* Duck - top left */}
+          <div className="absolute top-[20%] left-[5%] opacity-20 hover:opacity-30 transition-opacity">
+            <motion.div 
+              animate={{ x: [-10, 10, -10] }} 
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ThreeAnimal type="duck" size={120} />
+            </motion.div>
+          </div>
+
+          {/* Sheep - top right */}
+          <div className="absolute top-[30%] right-[8%] opacity-20 hover:opacity-30 transition-opacity">
+            <motion.div 
+              animate={{ y: [-5, 5, -5] }} 
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ThreeAnimal type="sheep" size={100} />
+            </motion.div>
+          </div>
+
+          {/* Cow - middle left */}
+          <div className="absolute top-1/2 left-[10%] opacity-15 hover:opacity-25 transition-opacity">
+            <motion.div 
+              animate={{ x: [5, -5, 5] }} 
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ThreeAnimal type="cow" size={140} />
+            </motion.div>
+          </div>
+
+          {/* Goat - middle right */}
+          <div className="absolute top-[55%] right-[12%] opacity-20 hover:opacity-30 transition-opacity">
+            <motion.div 
+              animate={{ y: [-8, 8, -8] }} 
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ThreeAnimal type="goat" size={110} />
+            </motion.div>
+          </div>
+
+          {/* Chicken - bottom area */}
+          <div className="absolute bottom-[25%] left-[15%] opacity-15 hover:opacity-25 transition-opacity">
+            <motion.div 
+              animate={{ x: [-15, 15, -15] }} 
+              transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ThreeAnimal type="chicken" size={95} />
+            </motion.div>
+          </div>
+        </div>
         
         {/* Rolling Hills (Bottom Visual) */}
         <div className="absolute bottom-0 left-0 w-full h-32 bg-green-400/20 blur-3xl rounded-t-full translate-y-16" />
@@ -444,14 +525,15 @@ const App = () => {
           <div className="w-12 h-12 sketch-border flex items-center justify-center bg-yellow-400 rotate-3 hover:rotate-12 transition-transform cursor-pointer">
              <PenTool size={20} className="text-black" />
           </div>
-          <span className="font-semibold tracking-tighter text-2xl uppercase text-black">BISMA<span className="text-green-600">.</span>REZA</span>
+          <span className="font-semibold tracking-tighter text-lg md:text-2xl uppercase text-black">BISMA<span className="text-green-600">.</span>REZA</span>
         </div>
 
+        {/* Desktop Navigation */}
         <div className="hidden lg:flex gap-10">
           {Object.keys(t.nav).map((key) => (
             <button 
               key={key} 
-              onClick={() => setActiveTab(key as keyof typeof t.nav)} 
+              onClick={() => handleNavClick(key)} 
               className={`text-xs tracking-[0.2em] uppercase transition-all relative px-2 py-1 font-bold ${activeTab === key ? 'text-black' : 'text-gray-400 hover:text-black'}`}
             >
               {t.nav[key as keyof typeof t.nav]}
@@ -462,7 +544,24 @@ const App = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* Mobile Menu Button */}
+        <div className="lg:hidden flex items-center gap-2">
+          <button 
+            onClick={() => setLang(prev => prev === 'id' ? 'en' : 'id')}
+            className="sketch-btn px-4 py-2 text-xs font-bold bg-yellow-400 text-black"
+          >
+            {lang === 'id' ? 'EN' : 'ID'}
+          </button>
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 hover:bg-black/10 rounded-lg transition-colors"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Desktop Language Button */}
+        <div className="hidden lg:flex items-center gap-4">
            <button 
             onClick={() => setLang(prev => prev === 'id' ? 'en' : 'id')}
             className="sketch-btn px-6 py-2 text-xs font-bold tracking-widest bg-yellow-400 text-black"
@@ -472,64 +571,77 @@ const App = () => {
         </div>
       </nav>
 
-      <main className="pt-40 pb-20 px-6 max-w-6xl mx-auto relative z-10">
+      {/* Mobile Navigation Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="fixed top-20 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-b-2 border-black/10 lg:hidden"
+          >
+            <div className="p-4 space-y-2">
+              {Object.keys(t.nav).map((key) => (
+                <button
+                  key={key}
+                  onClick={() => handleNavClick(key)}
+                  className={`w-full text-left px-4 py-3 rounded-lg font-bold tracking-widest uppercase transition-all ${
+                    activeTab === key
+                      ? 'bg-black text-white'
+                      : 'bg-white text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  {t.nav[key as keyof typeof t.nav]}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <main className="pt-24 md:pt-40 pb-20 px-4 sm:px-6 max-w-6xl mx-auto relative z-10">
         <AnimatePresence mode="wait">
           
           {/* --- BERANDA (HOME) --- */}
           {activeTab === 'home' && (
             <motion.section key="home" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="space-y-20">
-              <div className="flex flex-col md:flex-row items-center gap-16 md:gap-24">
+              <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16 lg:gap-24">
                 {/* Profile Swipe Area */}
-                <div className="relative w-72 h-72 md:w-96 md:h-96 shrink-0">
+                <div className="relative w-60 h-60 sm:w-72 sm:h-72 md:w-96 md:h-96 shrink-0">
                   <div className="absolute inset-0 sketch-border bg-white rotate-6" />
                   <div className="absolute inset-0 sketch-border bg-yellow-400 -rotate-3" />
                   
                   <div className="absolute inset-4 overflow-hidden bg-white border-2 border-black flex items-center justify-center" style={{ borderRadius: '40% 60% 70% 30% / 50% 70% 30% 50%' }}>
-                    <AnimatePresence mode="wait">
-                      <motion.div 
-                        key={profileIdx}
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                        className="w-full h-full flex items-center justify-center"
-                      >
-                        {profileOptions[profileIdx].type === 'image' ? (
-                          <img src={profileOptions[profileIdx].value} className="w-full h-full object-cover object-top grayscale-0" alt="Bisma Reza" />
-                        ) : (
-                          <ThreeAnimal type={profileOptions[profileIdx].value} size={300} />
-                        )}
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
-
-                  {/* Controls */}
-                  <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-6 bg-white px-8 py-4 sketch-border shadow-xl z-20">
-                    <button onClick={prevProfile} className="hover:text-green-600 transition-colors"><ChevronLeft size={28} /></button>
-                    <span className="text-xs font-bold tracking-[0.2em] uppercase whitespace-nowrap min-w-30 text-center">{profileOptions[profileIdx].label}</span>
-                    <button onClick={nextProfile} className="hover:text-green-600 transition-colors"><ChevronRight size={28} /></button>
+                    {profileOptions[profileIdx].type === 'image' ? (
+                      <img src={profileOptions[profileIdx].value} className="w-full h-full object-cover object-top grayscale-0" alt="Bisma Reza" />
+                    ) : (
+                      <ThreeAnimal type={profileOptions[profileIdx].value} size={300} />
+                    )}
                   </div>
                 </div>
 
                 {/* Hero Text */}
-                <div className="flex-1 text-center md:text-left space-y-8 pt-10 md:pt-0">
-                  <div className="space-y-6">
-                    <motion.span initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="doodle-font text-green-600 text-3xl flex items-center justify-center md:justify-start gap-4">
-                      <Sparkles size={28} className="text-yellow-500" /> {t.hero.tag}
+                <div className="flex-1 text-center md:text-left space-y-6 md:space-y-8 pt-6 md:pt-0">
+                  <div className="space-y-4 md:space-y-6">
+                    <motion.span initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="doodle-font text-green-600 text-xl sm:text-2xl md:text-3xl flex items-center justify-center md:justify-start gap-2 md:gap-4">
+                      <Sparkles size={20} className="sm:w-7 sm:h-7 text-yellow-500" /> {t.hero.tag}
                     </motion.span>
-                    <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none text-black">
+                    <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight md:leading-none text-black">
                       {t.hero.title} <br/>
                       <span className="text-sky-600 relative inline-block">
                         {t.hero.titleHighlight}
-                        <motion.div initial={{ width: 0 }} animate={{ width: '100%' }} transition={{ delay: 0.5, duration: 1 }} className="absolute -bottom-2 left-0 h-4 bg-yellow-400/40 -z-10" />
+                        <motion.div initial={{ width: 0 }} animate={{ width: '100%' }} transition={{ delay: 0.5, duration: 1 }} className="absolute -bottom-1 sm:-bottom-2 left-0 h-3 sm:h-4 bg-yellow-400/40 -z-10" />
                       </span>
                     </h1>
                   </div>
-                  <p className="max-w-xl text-xl text-gray-600 font-medium leading-relaxed bg-white/40 p-4 rounded-2xl border-2 border-black/5">{t.hero.desc}</p>
-                  <div className="flex flex-wrap gap-6 justify-center md:justify-start pt-4">
-                    <button onClick={() => setActiveTab('projects')} className="sketch-btn px-12 py-5 bg-black text-white flex items-center gap-3 group">
-                      <span className="text-sm font-black tracking-[0.2em] uppercase">{t.hero.btn1}</span>
-                      <ChevronRight size={20} className="group-hover:translate-x-2 transition-transform" />
+                  <p className="max-w-xl text-sm sm:text-base md:text-lg text-gray-600 font-medium leading-relaxed bg-white/40 p-3 sm:p-4 rounded-2xl border-2 border-black/5">{t.hero.desc}</p>
+                  <div className="flex flex-wrap gap-3 sm:gap-6 justify-center md:justify-start pt-2 md:pt-4">
+                    <button onClick={() => handleNavClick('works')} className="sketch-btn px-6 sm:px-12 py-3 sm:py-5 bg-black text-white text-xs sm:text-sm flex items-center gap-2 sm:gap-3 group">
+                      <span className="font-black tracking-widest sm:tracking-[0.2em] uppercase">{t.hero.btn1}</span>
+                      <ChevronRight size={16} className="sm:w-5 sm:h-5 group-hover:translate-x-2 transition-transform" />
                     </button>
-                    <button onClick={() => setActiveTab('contact')} className="sketch-btn px-12 py-5 bg-white text-black">
-                      <span className="text-sm font-black tracking-[0.2em] uppercase">{t.hero.btn2}</span>
+                    <button onClick={() => handleNavClick('contact')} className="sketch-btn px-6 sm:px-12 py-3 sm:py-5 bg-white text-black text-xs sm:text-sm">
+                      <span className="font-black tracking-widest sm:tracking-[0.2em] uppercase">{t.hero.btn2}</span>
                     </button>
                   </div>
                 </div>
@@ -539,32 +651,33 @@ const App = () => {
 
           {/* --- KEAHLIAN (SKILLS) --- */}
           {activeTab === 'skills' && (
-            <motion.section key="skills" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="space-y-20">
-              <div className="text-center space-y-6">
-                <h2 className="text-6xl font-black tracking-tight text-black">{t.skills.title}</h2>
-                <p className="text-sky-600 doodle-font text-2xl font-bold">{t.skills.desc}</p>
-                <div className="w-40 h-2 bg-yellow-400 mx-auto rounded-full border-2 border-black" />
+            <motion.section key="skills" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="space-y-12 md:space-y-20">
+              <div className="text-center space-y-4 md:space-y-6">
+                <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-black">{t.skills.title}</h2>
+                <p className="text-sky-600 doodle-font text-lg sm:text-xl md:text-2xl font-bold px-4">{t.skills.desc}</p>
+                <div className="w-32 sm:w-40 h-2 bg-yellow-400 mx-auto rounded-full border-2 border-black" />
               </div>
 
-              <div className="grid md:grid-cols-3 gap-10">
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-10">
                 {t.skills.items.map((skill: typeof t.skills.items[0], i: number) => (
                   <motion.div 
                     key={i} 
-                    className="p-10 card-farm farm-gradient group relative"
+                    whileHover={{ y: -5 }}
+                    className="p-6 md:p-10 card-farm farm-gradient group relative"
                   >
-                    <div className="w-16 h-16 sketch-border flex items-center justify-center mb-8 bg-white text-black shadow-[4px_4px_0px_#000]">
-                      {React.cloneElement(skill.icon, { size: 32 })}
+                    <div className="w-14 md:w-16 h-14 md:h-16 sketch-border flex items-center justify-center mb-6 md:mb-8 bg-white text-black shadow-[4px_4px_0px_#000]">
+                      {React.cloneElement(skill.icon, { size: 24 })}
                     </div>
-                    <h3 className="text-3xl font-black mb-8 pb-4 border-b-4 border-black/5 text-black">{skill.name}</h3>
+                    <h3 className="text-lg md:text-3xl font-black mb-6 md:mb-8 pb-4 border-b-4 border-black/5 text-black">{skill.name}</h3>
                     
-                    <div className="space-y-8">
-                      <div className="pl-6 border-l-4 border-sky-400">
-                        <p className="text-[10px] font-black tracking-widest text-sky-600 uppercase mb-2">{lang === 'id' ? 'Konteks' : 'Context'}</p>
-                        <p className="text-md text-gray-700 italic leading-relaxed">{skill.cause}</p>
+                    <div className="space-y-6 md:space-y-8">
+                      <div className="pl-4 md:pl-6 border-l-4 border-sky-400">
+                        <p className="text-[9px] md:text-[10px] font-black tracking-widest text-sky-600 uppercase mb-2">{lang === 'id' ? 'Konteks' : 'Context'}</p>
+                        <p className="text-xs md:text-sm text-gray-700 italic leading-relaxed">{skill.cause}</p>
                       </div>
-                      <div className="pl-6 border-l-4 border-green-500">
-                        <p className="text-[10px] font-black tracking-widest uppercase mb-2 text-green-700">{lang === 'id' ? 'Solusi' : 'Solution'}</p>
-                        <p className="text-md font-bold text-black leading-relaxed">{skill.effect}</p>
+                      <div className="pl-4 md:pl-6 border-l-4 border-green-500">
+                        <p className="text-[9px] md:text-[10px] font-black tracking-widest uppercase mb-2 text-green-700">{lang === 'id' ? 'Solusi' : 'Solution'}</p>
+                        <p className="text-xs md:text-sm font-bold text-black leading-relaxed">{skill.effect}</p>
                       </div>
                     </div>
                   </motion.div>
@@ -574,14 +687,14 @@ const App = () => {
           )}
 
           {/* --- KARYA (PROJECTS) --- */}
-          {activeTab === 'projects' && (
-            <motion.section key="projects" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-16">
-              <div className="text-center space-y-4">
-                <h2 className="text-6xl font-black tracking-tight">{t.projects.title}</h2>
-                <p className="text-green-600 doodle-font text-2xl font-bold">{t.projects.desc}</p>
+          {activeTab === 'works' && (
+            <motion.section key="projects" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-12 md:space-y-16">
+              <div className="text-center space-y-3 md:space-y-4 px-4">
+                <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight">{t.projects.title}</h2>
+                <p className="text-green-600 doodle-font text-lg sm:text-xl md:text-2xl font-bold">{t.projects.desc}</p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-12">
                 {t.projects.items.map((project: typeof t.projects.items[0], i: number) => (
                   <motion.div 
                     key={i} 
@@ -589,37 +702,37 @@ const App = () => {
                     className="card-farm bg-white flex flex-col group shadow-lg"
                   >
                     {/* Project Image */}
-                    <div className="w-full h-48 overflow-hidden border-b-2 border-black relative">
+                    <div className="w-full h-40 sm:h-48 overflow-hidden border-b-2 border-black relative">
                       <img 
                         src={project.image} 
                         alt={project.title} 
                         className="w-full h-full object-cover grayscale-20 group-hover:grayscale-0 transition-all duration-500" 
                       />
-                      <div className="absolute top-4 left-4 p-3 sketch-border bg-white text-black shadow-md">
-                        {React.cloneElement(project.icon, { size: 20 })}
+                      <div className="absolute top-3 left-3 p-2 sm:p-3 sketch-border bg-white text-black shadow-md">
+                        {React.cloneElement(project.icon, { size: 18 })}
                       </div>
-                      <div className="absolute bottom-4 right-4 bg-yellow-400 px-3 py-1 text-[10px] font-black tracking-widest uppercase border-2 border-black">
+                      <div className="absolute bottom-3 right-3 bg-yellow-400 px-2 py-1 text-[8px] sm:text-[10px] font-black tracking-widest uppercase border-2 border-black">
                         {project.type}
                       </div>
                     </div>
 
-                    <div className="p-8 flex flex-col flex-1">
-                      <h3 className="text-2xl font-black mb-4 group-hover:text-green-600 transition-colors text-black">{project.title}</h3>
-                      <p className="text-sm text-gray-600 font-medium leading-relaxed mb-8 flex-1">{project.story}</p>
+                    <div className="p-5 md:p-8 flex flex-col flex-1">
+                      <h3 className="text-lg md:text-2xl font-black mb-3 md:mb-4 group-hover:text-green-600 transition-colors text-black">{project.title}</h3>
+                      <p className="text-xs md:text-sm text-gray-600 font-medium leading-relaxed mb-6 md:mb-8 flex-1">{project.story}</p>
                       
-                      <a href={project.url} target="_blank" rel="noreferrer" className="flex items-center justify-between pt-6 border-t-2 border-black/5 text-[10px] font-black tracking-[0.4em] uppercase group/link text-black hover:text-green-600 transition-colors">
+                      <a href={project.url} target="_blank" rel="noreferrer" className="flex items-center justify-between pt-4 md:pt-6 border-t-2 border-black/5 text-[8px] md:text-[10px] font-black tracking-[0.3em] md:tracking-[0.4em] uppercase group/link text-black hover:text-green-600 transition-colors">
                         <span>{lang === 'id' ? 'Buka Portofolio' : 'Open Portfolio'}</span>
-                        <ExternalLink size={18} className="group-hover/link:translate-x-2 group-hover/link:-translate-y-2 transition-transform" />
+                        <ExternalLink size={14} className="md:w-4.5 md:h-4.5 group-hover/link:translate-x-2 group-hover/link:-translate-y-2 transition-transform" />
                       </a>
                     </div>
                   </motion.div>
                 ))}
                 
                 {/* Doodle Placeholder */}
-                <div className="card-farm border-dashed border-gray-300 p-10 flex flex-col items-center justify-center text-center space-y-6 bg-sky-100/30">
-                  <ThreeAnimal type="duck" size={150} />
-                  <p className="text-[12px] font-black tracking-[0.3em] text-sky-400 uppercase leading-relaxed">
-                    {lang === 'id' ? 'Ide besar berikutnya sedang disiapkan...' : 'Next big idea in progress...'}
+                <div className="card-farm border-dashed border-gray-300 p-8 md:p-10 flex flex-col items-center justify-center text-center space-y-4 md:space-y-6 bg-sky-100/30">
+                  <ThreeAnimal type="duck" size={120} />
+                  <p className="text-[10px] md:text-[12px] font-black tracking-[0.2em] md:tracking-[0.3em] text-sky-400 uppercase leading-relaxed px-2">
+                    {lang === 'id' ? 'Ide besar berikutnya...' : 'Next big idea...'}
                   </p>
                 </div>
               </div>
@@ -628,44 +741,44 @@ const App = () => {
 
           {/* --- JURNAL (EXPERIENCE) --- */}
           {activeTab === 'exp' && (
-            <motion.section key="exp" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} className="max-w-4xl mx-auto space-y-20">
-              <div className="flex flex-col md:flex-row justify-between items-end gap-6 border-b-4 border-black pb-10">
-                <div className="space-y-4 text-center md:text-left">
-                  <h2 className="text-7xl font-black tracking-tighter text-black">{t.journal.title}</h2>
-                  <p className="text-green-600 doodle-font text-2xl font-bold">{t.journal.desc}</p>
+            <motion.section key="exp" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} className="max-w-4xl mx-auto space-y-12 md:space-y-20 px-4">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b-4 border-black pb-6 md:pb-10">
+                <div className="space-y-3 md:space-y-4 text-center md:text-left">
+                  <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-black">{t.journal.title}</h2>
+                  <p className="text-green-600 doodle-font text-lg sm:text-xl md:text-2xl font-bold">{t.journal.desc}</p>
                 </div>
-                <div className="flex gap-6 p-4 sketch-border bg-yellow-400 rotate-3 shadow-[8px_8px_0px_#000]">
-                   <Briefcase size={28} className="text-black" />
-                   <GraduationCap size={28} className="text-black" />
+                <div className="flex gap-4 md:gap-6 p-3 md:p-4 sketch-border bg-yellow-400 rotate-3 shadow-[8px_8px_0px_#000] shrink-0">
+                   <Briefcase size={20} className="md:w-7 md:h-7 text-black" />
+                   <GraduationCap size={20} className="md:w-7 md:h-7 text-black" />
                 </div>
               </div>
 
-              <div className="relative pl-12 md:pl-20 space-y-24">
+              <div className="relative pl-6 md:pl-20 space-y-12 md:space-y-24">
                 <div className="absolute left-0 top-0 w-2 h-full bg-black/5 rounded-full overflow-hidden">
                   <motion.div initial={{ height: 0 }} animate={{ height: '100%' }} transition={{ duration: 2 }} className="w-full bg-green-500" />
                 </div>
 
                 {t.journal.items.map((item: typeof t.journal.items[0], i: number) => (
                   <div key={i} className="relative group">
-                    <div className="absolute -left-13.5 md:-left-18.5 top-4 w-10 h-10 sketch-border bg-white z-10 flex items-center justify-center shadow-md">
-                      <div className="w-4 h-4 rounded-full bg-yellow-500" />
+                    <div className="absolute -left-8 md:-left-13.5 lg:-left-18.5 top-4 w-8 md:w-10 h-8 md:h-10 sketch-border bg-white z-10 flex items-center justify-center shadow-md">
+                      <div className="w-3 md:w-4 h-3 md:h-4 rounded-full bg-yellow-500" />
                     </div>
                     
-                    <div className="grid md:grid-cols-[180px_1fr] gap-12">
-                      <div className="text-lg font-black tracking-tighter pt-4 text-sky-500 group-hover:text-black transition-colors">
+                    <div className="grid md:grid-cols-[140px_1fr] lg:grid-cols-[180px_1fr] gap-6 md:gap-12">
+                      <div className="text-sm md:text-lg font-black tracking-tighter pt-2 md:pt-4 text-sky-500 group-hover:text-black transition-colors">
                         {item.year}
                       </div>
-                      <div className="space-y-6 pb-16 border-b-2 border-black/5 last:border-0">
-                        <div className="flex flex-wrap justify-between items-start gap-4">
-                          <h3 className="text-3xl font-black text-black leading-tight">{item.role}</h3>
-                          <span className="text-sm doodle-font font-black text-white bg-green-500 px-6 py-2 rounded-full sketch-border rotate-2">{item.org}</span>
+                      <div className="space-y-4 md:space-y-6 pb-12 md:pb-16 border-b-2 border-black/5 last:border-0">
+                        <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between items-start gap-3 md:gap-4">
+                          <h3 className="text-lg md:text-3xl font-black text-black leading-tight">{item.role}</h3>
+                          <span className="text-xs md:text-sm doodle-font font-black text-white bg-green-500 px-4 md:px-6 py-2 rounded-full sketch-border rotate-2 whitespace-nowrap">{item.org}</span>
                         </div>
-                        <p className="text-gray-600 text-xl font-medium leading-relaxed italic">
+                        <p className="text-gray-600 text-sm md:text-xl font-medium leading-relaxed italic">
                           "{item.story}"
                         </p>
-                        <div className="flex flex-wrap gap-3 pt-4">
+                        <div className="flex flex-wrap gap-2 md:gap-3 pt-3 md:pt-4">
                           {item.tags.map((tag: string, idx: number) => (
-                            <span key={idx} className="px-5 py-2 bg-white border-2 border-black text-xs font-black tracking-widest text-black uppercase rounded-lg shadow-[4px_4px_0px_#000]">
+                            <span key={idx} className="px-3 md:px-5 py-1.5 md:py-2 bg-white border-2 border-black text-[8px] md:text-xs font-black tracking-widest text-black uppercase rounded-lg shadow-[4px_4px_0px_#000]">
                               #{tag}
                             </span>
                           ))}
@@ -676,18 +789,18 @@ const App = () => {
                 ))}
 
                 {/* Education */}
-                <div className="pt-10 space-y-12">
-                  <div className="flex items-center gap-6 text-sky-600">
-                    <GraduationCap size={40} className="sketch-border p-2 bg-white" />
-                    <h4 className="text-lg font-black tracking-[0.5em] uppercase text-black">{lang === 'id' ? 'Pendidikan' : 'Education'}</h4>
+                <div className="pt-6 md:pt-10 space-y-8 md:space-y-12">
+                  <div className="flex items-center gap-3 md:gap-6 text-sky-600">
+                    <GraduationCap size={28} className="md:w-10 md:h-10 sketch-border p-1.5 md:p-2 bg-white" />
+                    <h4 className="text-sm md:text-lg font-black tracking-[0.3em] md:tracking-[0.5em] uppercase text-black">{lang === 'id' ? 'Pendidikan' : 'Education'}</h4>
                   </div>
                   {t.journal.edu.map((e: typeof t.journal.edu[0], idx: number) => (
-                    <div key={idx} className="grid md:grid-cols-[180px_1fr] gap-12 bg-white/60 p-8 card-farm">
-                      <div className="text-lg font-black text-sky-300">{e.year}</div>
-                      <div className="space-y-4">
-                        <h5 className="text-3xl font-black text-black">{e.degree}</h5>
-                        <p className="text-green-600 doodle-font text-2xl font-bold">{e.univ}</p>
-                        <p className="text-md text-gray-500 font-medium">{e.desc}</p>
+                    <div key={idx} className="grid md:grid-cols-[140px_1fr] lg:grid-cols-[180px_1fr] gap-6 md:gap-12 bg-white/60 p-5 md:p-8 card-farm">
+                      <div className="text-sm md:text-lg font-black text-sky-300">{e.year}</div>
+                      <div className="space-y-2 md:space-y-4">
+                        <h5 className="text-xl md:text-3xl font-black text-black">{e.degree}</h5>
+                        <p className="text-green-600 doodle-font text-lg md:text-2xl font-bold">{e.univ}</p>
+                        <p className="text-xs md:text-base text-gray-500 font-medium">{e.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -698,15 +811,15 @@ const App = () => {
 
           {/* --- KONTAK (CONTACT) --- */}
           {activeTab === 'contact' && (
-            <motion.section key="contact" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16">
+            <motion.section key="contact" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 md:gap-16 px-4">
               
-              <div className="space-y-12">
-                <div className="space-y-6">
-                  <h2 className="text-7xl font-black tracking-tighter text-black">{t.contact.title}</h2>
-                  <p className="text-2xl font-medium leading-relaxed doodle-font text-green-600">{t.contact.info}</p>
+              <div className="space-y-8 md:space-y-12">
+                <div className="space-y-4 md:space-y-6">
+                  <h2 className="text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter text-black">{t.contact.title}</h2>
+                  <p className="text-lg sm:text-xl md:text-2xl font-medium leading-relaxed doodle-font text-green-600">{t.contact.info}</p>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-4 md:space-y-6">
                   {t.contact.links.map((link: typeof t.contact.links[0], i: number) => (
                     <motion.a 
                       key={i} 
@@ -714,52 +827,52 @@ const App = () => {
                       target="_blank" 
                       rel="noreferrer"
                       whileHover={{ x: 15, rotate: -1 }}
-                      className="flex items-center gap-8 p-8 card-farm farm-gradient group border-2 border-black shadow-[8px_8px_0px_#000] hover:shadow-[12px_12px_0px_#000] transition-all"
+                      className="flex items-center gap-4 md:gap-8 p-5 md:p-8 card-farm farm-gradient group border-2 border-black shadow-[8px_8px_0px_#000] hover:shadow-[12px_12px_0px_#000] transition-all"
                     >
-                      <div className="text-black bg-white p-4 sketch-border shadow-md group-hover:bg-yellow-400 transition-colors">
-                        {link.icon}
+                      <div className="text-black bg-white p-3 md:p-4 sketch-border shadow-md group-hover:bg-yellow-400 transition-colors shrink-0">
+                        {React.cloneElement(link.icon, { size: 20 })}
                       </div>
-                      <div>
-                        <p className="text-[12px] font-black tracking-[0.4em] uppercase text-sky-600 mb-1">{link.label}</p>
-                        <p className="text-2xl font-black text-black">{link.val}</p>
+                      <div className="min-w-0">
+                        <p className="text-[10px] md:text-[12px] font-black tracking-[0.3em] md:tracking-[0.4em] uppercase text-sky-600 mb-0.5 md:mb-1">{link.label}</p>
+                        <p className="text-lg md:text-2xl font-black text-black truncate">{link.val}</p>
                       </div>
                     </motion.a>
                   ))}
                 </div>
               </div>
 
-              <div className="flex flex-col gap-10">
-                <div className="flex-1 card-farm bg-black p-12 text-white flex flex-col justify-between relative overflow-hidden group shadow-2xl">
+              <div className="flex flex-col gap-6 md:gap-10">
+                <div className="flex-1 card-farm bg-black p-6 md:p-12 text-white flex flex-col justify-between relative overflow-hidden group shadow-2xl">
                   {/* Decorative Animal Inside Card */}
-                  <div className="absolute top-[-10%] right-[-10%] opacity-20 scale-150 rotate-12">
-                    <ThreeAnimal type="sheep" size={300} />
+                  <div className="absolute top-[-10%] right-[-10%] opacity-20 scale-100 md:scale-150 rotate-12">
+                    <ThreeAnimal type="sheep" size={200} />
                   </div>
                   
-                  <div className="space-y-8 relative z-10">
-                    <p className="doodle-font text-green-400 text-3xl font-bold">Let's sow the seeds of innovation together.</p>
-                    <h3 className="text-5xl font-black leading-tight tracking-tighter">Siap untuk <br/> berinovasi bersama <br/> bersama?</h3>
+                  <div className="space-y-4 md:space-y-8 relative z-10">
+                    <p className="doodle-font text-green-400 text-lg md:text-3xl font-bold">Let's sow the seeds of innovation together.</p>
+                    <h3 className="text-2xl sm:text-3xl md:text-5xl font-black leading-tight tracking-tighter">Siap untuk <br/> berinovasi <br/> bersama?</h3>
                   </div>
 
-                  <div className="space-y-6 relative z-10 pt-16">
-                    <div className="flex items-center gap-4 text-sky-300">
-                      <MapPin size={28} />
-                      <span className="text-md font-black tracking-[0.4em] uppercase">{t.contact.loc}</span>
+                  <div className="space-y-4 md:space-y-6 relative z-10 pt-8 md:pt-16">
+                    <div className="flex items-center gap-3 md:gap-4 text-sky-300">
+                      <MapPin size={20} className="md:w-7 md:h-7 shrink-0" />
+                      <span className="text-xs md:text-base font-black tracking-[0.2em] md:tracking-[0.4em] uppercase">{t.contact.loc}</span>
                     </div>
-                    <div className="flex gap-4">
-                       {[...Array(5)].map((_, i) => <Star key={i} size={20} className="text-yellow-400" fill="currentColor" />)}
+                    <div className="flex gap-2 md:gap-4">
+                       {[...Array(5)].map((_, i) => <Star key={i} size={16} className="md:w-5 md:h-5 text-yellow-400" fill="currentColor" />)}
                     </div>
                   </div>
                 </div>
 
-                <div className="p-10 card-farm bg-yellow-400 flex items-center justify-between border-2 border-black shadow-[8px_8px_0px_#000]">
-                   <div className="space-y-2">
-                      <p className="text-[12px] font-black tracking-widest text-black/50 uppercase">Status</p>
-                      <p className="text-xl font-black flex items-center gap-3 text-black">
-                        <span className="w-4 h-4 rounded-full bg-green-600 animate-pulse border-2 border-black" />
-                        Ready to Collaborate | Siap Berkolaborasi
+                <div className="p-6 md:p-10 card-farm bg-yellow-400 flex items-center justify-between border-2 border-black shadow-[8px_8px_0px_#000] flex-wrap gap-4">
+                   <div className="space-y-1 md:space-y-2">
+                      <p className="text-[10px] md:text-[12px] font-black tracking-widest text-black/50 uppercase">Status</p>
+                      <p className="text-sm md:text-xl font-black flex items-center gap-2 text-black">
+                        <span className="w-3 md:w-4 h-3 md:h-4 rounded-full bg-green-600 animate-pulse border-2 border-black" />
+                        <span className="text-xs md:text-base">Ready to Collaborate</span>
                       </p>
                    </div>
-                   <div className="w-20 h-20 bg-white sketch-border flex items-center justify-center text-5xl rotate-12 shadow-md">
+                   <div className="w-16 md:w-20 h-16 md:h-20 bg-white sketch-border flex items-center justify-center text-3xl md:text-5xl rotate-12 shadow-md shrink-0">
                      🚜
                    </div>
                 </div>
