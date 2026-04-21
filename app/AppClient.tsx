@@ -431,26 +431,42 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0820] text-[#140f25] font-outfit selection:bg-[#f7bf45]/40 overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#0f1416] text-[#2f2416] font-outfit selection:bg-[#d8a94a]/40 overflow-x-hidden relative">
       
       {/* Background Kintsugi + Origami Pattern */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute inset-0 opacity-100" style={{ background: 'linear-gradient(135deg, #fff7fb 0%, #f1ecff 28%, #e9f6ff 52%, #fff5de 78%, #f3ffe7 100%)' }} />
-        <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'linear-gradient(60deg, rgba(247,191,69,.45) 1px, transparent 1px), linear-gradient(120deg, rgba(255,77,141,.25) 1px, transparent 1px)', backgroundSize: '56px 56px' }} />
-        <div className="absolute top-[-14%] left-[-8%] w-[38vw] h-[38vw] rounded-full bg-[#7b6dff]/30 blur-3xl" />
-        <div className="absolute bottom-[-10%] right-[-6%] w-[36vw] h-[36vw] rounded-full bg-[#2dd4bf]/30 blur-3xl" />
+        <div className="absolute inset-0 opacity-100" style={{ background: 'linear-gradient(135deg, #f6efe2 0%, #efe0c2 28%, #e3d0a2 52%, #d3b077 78%, #c89d56 100%)' }} />
+        <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'linear-gradient(60deg, rgba(216,169,74,.28) 1px, transparent 1px), linear-gradient(120deg, rgba(47,122,120,.22) 1px, transparent 1px)', backgroundSize: '56px 56px' }} />
+        <div className="absolute top-[-14%] left-[-8%] w-[38vw] h-[38vw] rounded-full bg-[#2f7a78]/25 blur-3xl animate-[gentlePulse_14s_ease-in-out_infinite]" />
+        <div className="absolute bottom-[-10%] right-[-6%] w-[36vw] h-[36vw] rounded-full bg-[#d8a94a]/25 blur-3xl animate-[gentlePulse_16s_ease-in-out_infinite_reverse]" />
+        <div className="peacock-ambient" aria-hidden="true">
+          <div className="peacock-tail">
+            {Array.from({ length: 11 }).map((_, idx) => (
+              <span key={idx} className="peacock-feather" style={{ transform: `rotate(${idx * 9 - 45}deg)` }} />
+            ))}
+          </div>
+          <div className="peacock-wing" />
+          <div className="peacock-body" />
+          <div className="peacock-neck" />
+          <div className="peacock-head" />
+          <span className="peacock-eye" />
+          <span className="peacock-beak" />
+          <span className="peacock-crown peacock-crown-1" />
+          <span className="peacock-crown peacock-crown-2" />
+          <span className="peacock-crown peacock-crown-3" />
+        </div>
       </div>
 
       <style dangerouslySetInnerHTML={{__html: `
-        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
         
         body { 
-          font-family: 'Outfit', sans-serif; 
-          background: linear-gradient(135deg, #fff7fb 0%, #f1ecff 28%, #e9f6ff 52%, #fff5de 78%, #f3ffe7 100%);
+          font-family: 'Poppins', sans-serif; 
+          background: linear-gradient(135deg, #f6efe2 0%, #efe0c2 28%, #e3d0a2 52%, #d3b077 78%, #c89d56 100%);
         }
         
-        .font-lexend { font-family: 'Lexend', sans-serif; }
-        .font-outfit { font-family: 'Outfit', sans-serif; }
+        .font-lexend { font-family: 'Libre Baskerville', serif; }
+        .font-outfit { font-family: 'Poppins', sans-serif; }
         
         /* Card: colorful paper + kintsugi edge */
         .card-minimal { 
@@ -459,13 +475,13 @@ const App = () => {
           transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); 
           position: relative;
           border: 1px solid rgba(255,255,255,0.65);
-          box-shadow: 0 18px 40px -16px rgba(46, 20, 82, 0.25);
+          box-shadow: 0 18px 40px -16px rgba(93, 74, 50, 0.28);
           overflow: hidden;
           backdrop-filter: blur(8px);
         }
         .card-minimal:hover { 
           transform: translateY(-6px); 
-          box-shadow: 0 26px 48px -16px rgba(46, 20, 82, 0.34);
+          box-shadow: 0 26px 48px -16px rgba(93, 74, 50, 0.4);
         }
         
         /* Origami Fold Accent */
@@ -477,15 +493,15 @@ const App = () => {
           height: 0;
           border-style: solid;
           border-width: 0 46px 46px 0;
-          border-color: #f7bf45 #ff4d8d transparent transparent;
-          box-shadow: -2px 2px 10px rgba(123,109,255,0.25);
+          border-color: #d8a94a #2f7a78 transparent transparent;
+          box-shadow: -2px 2px 10px rgba(47,122,120,0.28);
           border-bottom-left-radius: 8px;
           z-index: 10;
           transition: all 0.3s ease;
         }
         .card-minimal:hover .origami-fold-accent {
           border-width: 0 54px 54px 0;
-          box-shadow: -6px 6px 14px rgba(123,109,255,0.35);
+          box-shadow: -6px 6px 14px rgba(47,122,120,0.4);
         }
 
         .pill-nav {
@@ -493,22 +509,215 @@ const App = () => {
           backdrop-filter: blur(12px);
           border: 1px solid rgba(255,255,255,0.85);
           border-radius: 100px;
-          box-shadow: 0 14px 32px rgba(123,109,255,0.2);
+          box-shadow: 0 14px 32px rgba(93, 74, 50, 0.2);
         }
 
         .section-kintsugi-title {
-          color: #24183d;
+          color: #2f2416;
           text-shadow: 0 1px 0 rgba(255,255,255,0.65);
         }
 
         .kintsugi-subtle-text {
-          color: #4f4a67;
+          color: #5d4a32;
         }
 
         .kintsugi-tag {
-          background: linear-gradient(90deg, rgba(247,191,69,0.2), rgba(123,109,255,0.16));
-          border: 1px solid rgba(123,109,255,0.2);
-          color: #4f4a67;
+          background: linear-gradient(90deg, rgba(216,169,74,0.2), rgba(47,122,120,0.16));
+          border: 1px solid rgba(47,122,120,0.25);
+          color: #5d4a32;
+        }
+
+        .minimal-float {
+          animation: softFloat 5.5s ease-in-out infinite;
+        }
+
+        @keyframes softFloat {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-6px); }
+        }
+
+        @keyframes gentlePulse {
+          0%, 100% { opacity: 0.35; transform: scale(1); }
+          50% { opacity: 0.55; transform: scale(1.07); }
+        }
+
+        .peacock-ambient {
+          position: absolute;
+          right: 4%;
+          bottom: 3%;
+          width: 240px;
+          height: 240px;
+          opacity: 0.36;
+          pointer-events: none;
+          transform-origin: 72% 78%;
+          animation: peacockApproach 9.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+          filter: drop-shadow(0 10px 18px rgba(53, 42, 28, 0.35));
+          will-change: transform, opacity;
+        }
+
+        .peacock-tail {
+          position: absolute;
+          left: 5px;
+          bottom: 25px;
+          width: 210px;
+          height: 175px;
+          transform-origin: bottom left;
+          animation: tailBreath 8s ease-in-out infinite;
+        }
+
+        .peacock-feather {
+          position: absolute;
+          left: 74px;
+          bottom: 30px;
+          width: 70px;
+          height: 130px;
+          border-radius: 999px 999px 999px 999px;
+          transform-origin: bottom center;
+          background: radial-gradient(circle at 50% 34%, rgba(216, 169, 74, 0.95) 0 10%, rgba(38, 109, 109, 0.92) 10% 22%, rgba(27, 78, 77, 0.8) 22% 46%, rgba(18, 48, 47, 0.56) 46% 100%);
+          border: 1px solid rgba(216, 169, 74, 0.3);
+          box-shadow: inset 0 -6px 12px rgba(16, 43, 43, 0.24);
+        }
+
+        .peacock-wing {
+          position: absolute;
+          right: 60px;
+          bottom: 40px;
+          width: 42px;
+          height: 54px;
+          border-radius: 70% 60% 60% 55%;
+          background: linear-gradient(170deg, rgba(216, 169, 74, 0.74), rgba(47, 122, 120, 0.92) 52%, rgba(24, 67, 66, 0.92) 100%);
+          transform: rotate(-12deg);
+          box-shadow: inset -6px -8px 12px rgba(12, 35, 35, 0.25);
+        }
+
+        .peacock-body {
+          position: absolute;
+          right: 62px;
+          bottom: 20px;
+          width: 44px;
+          height: 62px;
+          border-radius: 100px 100px 80px 80px;
+          background: linear-gradient(180deg, #2f7a78 0%, #1e504f 100%);
+        }
+
+        .peacock-neck {
+          position: absolute;
+          right: 74px;
+          bottom: 70px;
+          width: 17px;
+          height: 58px;
+          border-radius: 999px;
+          background: linear-gradient(180deg, #34908d 0%, #215f5d 100%);
+          transform: rotate(10deg);
+          transform-origin: bottom center;
+        }
+
+        .peacock-head {
+          position: absolute;
+          right: 62px;
+          bottom: 118px;
+          width: 30px;
+          height: 24px;
+          border-radius: 999px;
+          background: radial-gradient(circle at 38% 42%, #3da6a3, #1f5e5c 70%);
+        }
+
+        .peacock-eye {
+          position: absolute;
+          right: 76px;
+          bottom: 131px;
+          width: 5px;
+          height: 5px;
+          border-radius: 999px;
+          background: #0d0b08;
+          box-shadow: 0 0 0 1px rgba(238, 227, 198, 0.72);
+        }
+
+        .peacock-beak {
+          position: absolute;
+          right: 55px;
+          bottom: 124px;
+          width: 12px;
+          height: 7px;
+          background: linear-gradient(90deg, #efd8a1, #c89d56);
+          border-radius: 8px 12px 10px 6px;
+          transform: rotate(-8deg);
+        }
+
+        .peacock-crown {
+          position: absolute;
+          width: 2px;
+          height: 17px;
+          background: #2f7a78;
+          transform-origin: bottom center;
+        }
+
+        .peacock-crown::after {
+          content: '';
+          position: absolute;
+          top: -4px;
+          left: -2px;
+          width: 6px;
+          height: 6px;
+          border-radius: 999px;
+          background: #d8a94a;
+        }
+
+        .peacock-crown-1 { right: 76px; bottom: 138px; transform: rotate(-22deg); }
+        .peacock-crown-2 { right: 70px; bottom: 141px; transform: rotate(0deg); }
+        .peacock-crown-3 { right: 64px; bottom: 138px; transform: rotate(20deg); }
+
+        @keyframes peacockApproach {
+          0% { transform: translate3d(16px, 10px, 0) scale(0.88); opacity: 0.22; }
+          35% { transform: translate3d(8px, 2px, 0) scale(0.97); opacity: 0.3; }
+          70% { transform: translate3d(0px, -4px, 0) scale(1.06); opacity: 0.42; }
+          100% { transform: translate3d(-4px, -6px, 0) scale(1.1); opacity: 0.46; }
+        }
+
+        @keyframes tailBreath {
+          0%, 100% { transform: rotate(0deg) scale(1); }
+          50% { transform: rotate(2.5deg) scale(1.03); }
+        }
+
+        @media (max-width: 1024px) {
+          .peacock-ambient {
+            width: 200px;
+            height: 200px;
+            right: 2%;
+            bottom: 2%;
+            opacity: 0.28;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .peacock-ambient {
+            width: 156px;
+            height: 156px;
+            right: 1%;
+            bottom: 1%;
+            opacity: 0.18;
+            filter: drop-shadow(0 6px 10px rgba(53, 42, 28, 0.22));
+          }
+
+          .peacock-feather {
+            border-width: 0.5px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .peacock-ambient {
+            width: 128px;
+            height: 128px;
+            opacity: 0.14;
+            animation-duration: 12s;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .peacock-ambient,
+          .peacock-tail {
+            animation: none !important;
+          }
         }
       `}} />
 
@@ -516,10 +725,10 @@ const App = () => {
       <div className="fixed top-0 left-0 w-full z-50 flex justify-center pt-6 px-4 pointer-events-none">
         <nav className="w-full max-w-5xl flex justify-between items-center pill-nav px-6 md:px-8 py-3 md:py-4 pointer-events-auto">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#ff4d8d] via-[#7b6dff] to-[#2dd4bf] flex items-center justify-center text-white shadow-sm">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#d8a94a] via-[#2f7a78] to-[#7a5a2f] flex items-center justify-center text-white shadow-sm">
                <Sparkles size={16} />
             </div>
-            <span className="font-lexend font-bold tracking-tight text-lg md:text-xl text-[#24183d]">Bisma<span className="text-[#7b6dff] font-light">.</span>Reza</span>
+            <span className="font-lexend font-bold tracking-tight text-lg md:text-xl text-[#2f2416]">Bisma<span className="text-[#2f7a78] font-light">.</span>Reza</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -528,11 +737,11 @@ const App = () => {
               <button 
                 key={key} 
                 onClick={() => handleNavClick(key)} 
-                className={`font-lexend text-sm tracking-wide capitalize transition-all relative px-3 py-1 font-medium ${activeTab === key ? 'text-[#24183d]' : 'text-[#7a7398] hover:text-[#24183d]'}`}
+                className={`font-lexend text-sm tracking-wide capitalize transition-all relative px-3 py-1 font-medium ${activeTab === key ? 'text-[#2f2416]' : 'text-[#7a6240] hover:text-[#2f2416]'}`}
               >
                 {t.nav[key as keyof typeof t.nav]}
                 {activeTab === key && (
-                  <motion.div layoutId="nav-pill-bg" className="absolute inset-0 bg-gradient-to-r from-[#f7bf45]/30 to-[#7b6dff]/25 rounded-full -z-10" />
+                  <motion.div layoutId="nav-pill-bg" className="absolute inset-0 bg-gradient-to-r from-[#d8a94a]/30 to-[#2f7a78]/25 rounded-full -z-10" />
                 )}
               </button>
             ))}
@@ -540,12 +749,12 @@ const App = () => {
 
           <div className="flex items-center gap-3">
             {/* Language Toggle */}
-            <button onClick={() => setLang(prev => prev === 'id' ? 'en' : 'id')} className="hidden lg:block px-4 py-1.5 rounded-full text-xs font-lexend font-medium text-[#5b5478] bg-white/80 hover:bg-white transition-colors border border-[#d6d0ea]">
+            <button onClick={() => setLang(prev => prev === 'id' ? 'en' : 'id')} className="hidden lg:block px-4 py-1.5 rounded-full text-xs font-lexend font-medium text-[#5d4a32] bg-white/80 hover:bg-white transition-colors border border-[#d7bf94]">
               {lang === 'id' ? 'ID' : 'EN'}
             </button>
             
             {/* Mobile Menu Button */}
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 rounded-full hover:bg-white/80 transition-colors text-[#5b5478]">
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 rounded-full hover:bg-white/80 transition-colors text-[#5d4a32]">
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
@@ -559,7 +768,7 @@ const App = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed top-28 left-4 right-4 z-40 bg-white/90 rounded-3xl shadow-[0_20px_40px_-10px_rgba(52,28,94,0.2)] border border-[#ddd6f1] lg:hidden overflow-hidden backdrop-blur-md"
+            className="fixed top-28 left-4 right-4 z-40 bg-white/90 rounded-3xl shadow-[0_20px_40px_-10px_rgba(93,74,50,0.22)] border border-[#e2cfab] lg:hidden overflow-hidden backdrop-blur-md"
           >
             <div className="p-4 flex flex-col gap-2">
               {Object.keys(t.nav).map((key) => (
@@ -567,14 +776,14 @@ const App = () => {
                   key={key}
                   onClick={() => handleNavClick(key)}
                   className={`w-full text-left px-6 py-4 rounded-2xl font-lexend font-medium capitalize transition-all ${
-                    activeTab === key ? 'bg-gradient-to-r from-[#f7bf45]/20 to-[#7b6dff]/20 text-[#24183d]' : 'text-[#625a82] hover:bg-white/70'
+                    activeTab === key ? 'bg-gradient-to-r from-[#d8a94a]/20 to-[#2f7a78]/20 text-[#2f2416]' : 'text-[#5d4a32] hover:bg-white/70'
                   }`}
                 >
                   {t.nav[key as keyof typeof t.nav]}
                 </button>
               ))}
-              <div className="w-full h-px bg-[#e4ddf5] my-2" />
-              <button onClick={() => setLang(prev => prev === 'id' ? 'en' : 'id')} className="w-full text-left px-6 py-4 rounded-2xl font-lexend font-medium text-[#625a82] hover:bg-white/70">
+              <div className="w-full h-px bg-[#e2cfab] my-2" />
+              <button onClick={() => setLang(prev => prev === 'id' ? 'en' : 'id')} className="w-full text-left px-6 py-4 rounded-2xl font-lexend font-medium text-[#5d4a32] hover:bg-white/70">
                 Language: {lang === 'id' ? 'English' : 'Bahasa Indonesia'}
               </button>
             </div>
@@ -590,7 +799,7 @@ const App = () => {
             <motion.section key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-16">
               <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
                 {/* Profile Picture Minimalist */}
-                <div className="relative w-64 h-64 sm:w-80 sm:h-80 shrink-0">
+                <div className="relative w-64 h-64 sm:w-80 sm:h-80 shrink-0 minimal-float">
                   <div className="w-full h-full rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_-10px_rgba(0,0,0,0.1)] bg-white p-2">
                     <div className="w-full h-full rounded-[2rem] overflow-hidden relative">
                       <img
@@ -602,32 +811,32 @@ const App = () => {
                     </div>
                   </div>
                   {/* Subtle Origami Decor on Profile */}
-                  <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#7b6dff] rounded-full blur-2xl opacity-40 -z-10" />
+                  <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#2f7a78] rounded-full blur-2xl opacity-40 -z-10" />
                 </div>
 
                 {/* Hero Text */}
                 <div className="flex-1 text-center md:text-left space-y-6 md:space-y-8">
                   <div className="space-y-3 md:space-y-4">
                     <motion.span initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="font-lexend font-medium text-gray-500 text-sm md:text-base flex items-center justify-center md:justify-start gap-2 uppercase tracking-widest">
-                      <Coffee size={16} className="text-[#ff4d8d]" /> {t.hero.tag}
+                      <Coffee size={16} className="text-[#d8a94a]" /> {t.hero.tag}
                     </motion.span>
-                    <h1 className="font-lexend text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[1.1] text-[#24183d]">
+                    <h1 className="font-lexend text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[1.1] text-[#2f2416]">
                       {t.hero.title} <br/>
-                      <span className="text-[#7b6dff] font-light italic relative inline-block">
+                      <span className="text-[#2f7a78] font-light italic relative inline-block">
                         {t.hero.titleHighlight}
-                        <svg className="absolute -bottom-2 left-0 w-full h-2 text-[#7b6dff]/35" viewBox="0 0 100 10" preserveAspectRatio="none">
+                        <svg className="absolute -bottom-2 left-0 w-full h-2 text-[#2f7a78]/35" viewBox="0 0 100 10" preserveAspectRatio="none">
                           <path d="M0,5 Q25,0 50,5 T100,5" fill="none" stroke="currentColor" strokeWidth="2" />
                         </svg>
                       </span>
                     </h1>
                   </div>
-                  <p className="text-base sm:text-lg text-[#4a4464] font-light leading-relaxed max-w-xl mx-auto md:mx-0">{t.hero.desc}</p>
+                  <p className="text-base sm:text-lg text-[#5d4a32] font-light leading-relaxed max-w-xl mx-auto md:mx-0">{t.hero.desc}</p>
                   <div className="flex flex-wrap gap-4 justify-center md:justify-start pt-4">
-                    <button onClick={() => handleNavClick('works')} className="px-8 py-3.5 bg-gradient-to-r from-[#ff4d8d] via-[#7b6dff] to-[#2dd4bf] text-white rounded-full font-lexend text-sm font-medium transition-all shadow-md hover:shadow-xl flex items-center gap-2 group">
+                    <button onClick={() => handleNavClick('works')} className="px-8 py-3.5 bg-gradient-to-r from-[#d8a94a] via-[#2f7a78] to-[#7a5a2f] text-white rounded-full font-lexend text-sm font-medium transition-all shadow-md hover:shadow-xl flex items-center gap-2 group">
                       <span>{t.hero.btn1}</span>
                       <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </button>
-                    <button onClick={() => handleNavClick('contact')} className="px-8 py-3.5 bg-white/90 text-[#24183d] rounded-full font-lexend text-sm font-medium hover:bg-white transition-all border border-[#d6d0ea] shadow-sm">
+                    <button onClick={() => handleNavClick('contact')} className="px-8 py-3.5 bg-white/90 text-[#2f2416] rounded-full font-lexend text-sm font-medium hover:bg-white transition-all border border-[#d7bf94] shadow-sm">
                       <span>{t.hero.btn2}</span>
                     </button>
                   </div>
@@ -651,18 +860,18 @@ const App = () => {
                     <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 bg-white/70 border border-white/70 transition-colors" style={{ color: skill.color }}>
                       {React.cloneElement(skill.icon, { size: 24 })}
                     </div>
-                    <h3 className="font-lexend text-2xl font-semibold mb-6 text-[#24183d]">{skill.name}</h3>
+                    <h3 className="font-lexend text-2xl font-semibold mb-6 text-[#2f2416]">{skill.name}</h3>
                     
                     <div className="space-y-6">
                       <div className="relative pl-6">
-                        <div className="absolute left-0 top-1.5 w-2 h-2 rounded-full bg-[#b9afdb]" />
-                        <p className="font-lexend text-[10px] font-semibold tracking-widest text-[#7a7398] uppercase mb-2">{lang === 'id' ? 'Konteks' : 'Context'}</p>
-                        <p className="text-sm text-[#5f5879] font-light leading-relaxed">{skill.cause}</p>
+                        <div className="absolute left-0 top-1.5 w-2 h-2 rounded-full bg-[#c7ad7a]" />
+                        <p className="font-lexend text-[10px] font-semibold tracking-widest text-[#7a5a2f] uppercase mb-2">{lang === 'id' ? 'Konteks' : 'Context'}</p>
+                        <p className="text-sm text-[#5d4a32] font-light leading-relaxed">{skill.cause}</p>
                       </div>
                       <div className="relative pl-6">
                         <div className="absolute left-0 top-1.5 w-2 h-2 rounded-full" style={{ backgroundColor: skill.color }} />
                         <p className="font-lexend text-[10px] font-semibold tracking-widest uppercase mb-2" style={{ color: skill.color }}>{lang === 'id' ? 'Solusi' : 'Solution'}</p>
-                        <p className="text-sm font-normal text-[#24183d] leading-relaxed">{skill.effect}</p>
+                        <p className="text-sm font-normal text-[#2f2416] leading-relaxed">{skill.effect}</p>
                       </div>
                     </div>
                   </motion.div>
@@ -689,17 +898,17 @@ const App = () => {
                         <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                         <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors" />
                       </div>
-                      <div className="absolute top-4 left-4 p-2 bg-white/90 backdrop-blur rounded-xl text-[#24183d] shadow-sm">
+                      <div className="absolute top-4 left-4 p-2 bg-white/90 backdrop-blur rounded-xl text-[#2f2416] shadow-sm">
                         {React.cloneElement(project.icon, { size: 18, color: project.color })}
                       </div>
                     </div>
 
                     <div className="p-6 md:p-8 flex flex-col flex-1 bg-white/60">
                       <span className="font-lexend text-[10px] font-semibold tracking-widest uppercase mb-3" style={{ color: project.color }}>{project.type}</span>
-                      <h3 className="font-lexend text-xl font-semibold mb-3 text-[#24183d] leading-tight">{project.title}</h3>
-                      <p className="text-sm text-[#5f5879] font-light leading-relaxed mb-6 flex-1">{project.story}</p>
+                      <h3 className="font-lexend text-xl font-semibold mb-3 text-[#2f2416] leading-tight">{project.title}</h3>
+                      <p className="text-sm text-[#5d4a32] font-light leading-relaxed mb-6 flex-1">{project.story}</p>
                       
-                      <a href={project.url} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-medium text-[#625a82] hover:text-[#24183d] transition-colors w-fit group/link">
+                      <a href={project.url} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs font-medium text-[#7a5a2f] hover:text-[#2f2416] transition-colors w-fit group/link">
                         <span>{lang === 'id' ? 'Lihat Detail' : 'View Details'}</span>
                         <ExternalLink size={14} className="group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
                       </a>
@@ -713,7 +922,7 @@ const App = () => {
           {/* --- JURNAL (EXPERIENCE) --- */}
           {activeTab === 'journal' && (
             <motion.section key="exp" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl mx-auto space-y-16">
-              <div className="text-center space-y-4 px-4 pb-8 border-b border-[#e4ddf5]">
+              <div className="text-center space-y-4 px-4 pb-8 border-b border-[#e2cfab]">
                 <h2 className="font-lexend text-4xl sm:text-5xl font-semibold tracking-tight section-kintsugi-title capitalize">{t.journal.title}</h2>
                 <p className="kintsugi-subtle-text font-light text-lg">{t.journal.desc}</p>
               </div>
@@ -724,18 +933,18 @@ const App = () => {
                      <div className="origami-fold-accent" />
                      <div className="md:w-48 shrink-0">
                         <span className="inline-block px-3 py-1 kintsugi-tag rounded-full text-xs font-semibold mb-4">{item.year}</span>
-                        <div className="flex items-center gap-2 text-[#7b6dff] font-medium text-sm mt-1">
+                        <div className="flex items-center gap-2 text-[#2f7a78] font-medium text-sm mt-1">
                           <MapPin size={14} /> {item.org}
                         </div>
                      </div>
                      <div className="flex-1 space-y-4">
-                        <h3 className="font-lexend text-2xl font-semibold text-[#24183d]">{item.role}</h3>
-                        <p className="text-[#5f5879] font-light leading-relaxed text-sm md:text-base">
+                        <h3 className="font-lexend text-2xl font-semibold text-[#2f2416]">{item.role}</h3>
+                        <p className="text-[#5d4a32] font-light leading-relaxed text-sm md:text-base">
                           {item.story}
                         </p>
                         <div className="flex flex-wrap gap-2 pt-2">
                           {item.tags.map((tag: string, idx: number) => (
-                            <span key={idx} className="px-3 py-1 bg-white/70 text-[#625a82] font-medium text-[10px] tracking-wide rounded-lg border border-white/70">
+                            <span key={idx} className="px-3 py-1 bg-white/70 text-[#7a5a2f] font-medium text-[10px] tracking-wide rounded-lg border border-white/70">
                               {tag}
                             </span>
                           ))}
@@ -746,8 +955,8 @@ const App = () => {
 
                 {/* Education */}
                 <div className="pt-12 space-y-8">
-                  <h3 className="font-lexend text-2xl font-semibold text-[#24183d] flex items-center gap-3">
-                    <GraduationCap size={24} className="text-[#ff4d8d]" /> 
+                  <h3 className="font-lexend text-2xl font-semibold text-[#2f2416] flex items-center gap-3">
+                    <GraduationCap size={24} className="text-[#d8a94a]" /> 
                     {lang === 'id' ? 'Pendidikan' : 'Education'}
                   </h3>
                   {t.journal.edu.map((e: typeof t.journal.edu[0], idx: number) => (
@@ -757,9 +966,9 @@ const App = () => {
                          <span className="inline-block px-3 py-1 kintsugi-tag rounded-full text-xs font-semibold">{e.year}</span>
                       </div>
                       <div className="flex-1 space-y-3">
-                        <h5 className="font-lexend text-xl font-semibold text-[#24183d]">{e.degree}</h5>
-                        <p className="text-[#7b6dff] font-medium">{e.univ}</p>
-                        <p className="text-[#5f5879] font-light text-sm md:text-base leading-relaxed">{e.desc}</p>
+                        <h5 className="font-lexend text-xl font-semibold text-[#2f2416]">{e.degree}</h5>
+                        <p className="text-[#2f7a78] font-medium">{e.univ}</p>
+                        <p className="text-[#5d4a32] font-light text-sm md:text-base leading-relaxed">{e.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -782,20 +991,20 @@ const App = () => {
                   <div className="space-y-6">
                     {t.contact.links.map((link: typeof t.contact.links[0], i: number) => (
                       <a key={i} href={link.url} target="_blank" rel="noreferrer" className="flex items-center gap-4 group">
-                        <div className="w-12 h-12 rounded-full bg-white/80 border border-white/80 flex items-center justify-center text-[#7a7398] group-hover:bg-[#ff4d8d] group-hover:text-white transition-colors">
+                        <div className="w-12 h-12 rounded-full bg-white/80 border border-white/80 flex items-center justify-center text-[#7a5a2f] group-hover:bg-[#2f7a78] group-hover:text-white transition-colors">
                           {React.cloneElement(link.icon, { size: 18 })}
                         </div>
                         <div>
-                          <p className="text-[10px] font-bold tracking-widest uppercase text-[#7a7398]">{link.label}</p>
-                          <p className="text-sm font-medium text-[#24183d] group-hover:text-[#ff4d8d] transition-colors">{link.val}</p>
+                          <p className="text-[10px] font-bold tracking-widest uppercase text-[#7a5a2f]">{link.label}</p>
+                          <p className="text-sm font-medium text-[#2f2416] group-hover:text-[#2f7a78] transition-colors">{link.val}</p>
                         </div>
                       </a>
                     ))}
                   </div>
                 </div>
 
-                <div className="card-minimal p-8 md:p-10 bg-gradient-to-br from-[#7b6dff] via-[#ff4d8d] to-[#2dd4bf] text-black flex flex-col justify-between">
-                  <div className="origami-fold-accent" style={{ borderTopColor: '#f7bf45', borderRightColor: '#f7bf45' }} />
+                <div className="card-minimal p-8 md:p-10 bg-gradient-to-br from-[#c89d56] via-[#d8a94a] to-[#2f7a78] text-[#1f1910] flex flex-col justify-between">
+                  <div className="origami-fold-accent" style={{ borderTopColor: '#e7c27a', borderRightColor: '#e7c27a' }} />
                   <div className="space-y-6">
                     <Cloud size={32} className="text-black/80" />
                     <h3 className="font-lexend text-3xl font-semibold leading-tight">Let's build<br/> something <br/> together.</h3>
@@ -813,11 +1022,11 @@ const App = () => {
       </main>
 
       {/* --- FOOTER --- */}
-      <footer className="mt-20 border-t border-[#d8d1ee] bg-white/55 backdrop-blur-sm relative z-10">
+      <footer className="mt-20 border-t border-[#d7bf94] bg-white/55 backdrop-blur-sm relative z-10">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 py-10 px-6 text-center md:text-left">
           <div className="flex flex-col items-center md:items-start gap-2">
-            <span className="font-lexend text-lg font-semibold text-[#24183d] tracking-tight">Bisma Reza © 2026</span>
-            <p className="text-xs text-[#5f5879] font-light">"Indeed, We will not allow to be lost the reward of any who did well in deeds." (QS: 18:30).</p>
+            <span className="font-lexend text-lg font-semibold text-[#2f2416] tracking-tight">Bisma Reza © 2026</span>
+            <p className="text-xs text-[#5d4a32] font-light">"Indeed, We will not allow to be lost the reward of any who did well in deeds." (QS: 18:30).</p>
           </div>
 
           <div className="flex flex-col items-center md:items-end gap-4">
